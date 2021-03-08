@@ -1,10 +1,10 @@
-# Lesson XXX Homework
+# Lesson 08 Homework
 
 ## React useEffect hook
 
 ### Materials
 
-- [Task description](LINK HERE)
+- [Task description](https://github.com/netology-code/ra16-homeworks/blob/master/hooks-context/use-effect)
 - [Code style](https://github.com/netology-code/codestyle)
 
 
