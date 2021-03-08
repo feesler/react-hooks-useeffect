@@ -1,55 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { API } from '../../api/index.js';
 import Spinner from '../Spinner/Spinner.jsx';
 
 function List(props) {
-  const { onSelect } = props;
-  const [users, setUsers] = useState([]);
+  const { items, loading, onSelect } = props;
   const [active, setActive] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const usersList = await API.users.list();
-
-      setLoading(false);
-      if (usersList) {
-        setUsers([...usersList]);
-      }
-    }
-
-    setLoading(true);
-    fetchUsers();
-  }, []);
 
   const selectHandler = (e) => {
     e.preventDefault();
 
-    const userId = Number(e.target.dataset.id);
-    setActive(userId);
+    const itemId = Number(e.target.dataset.id);
+    setActive(itemId);
 
     if (onSelect) {
-      const userInfo = users.find((user) => user.id === userId);
-      onSelect(userInfo);
+      onSelect(itemId);
     }
   }
 
   return (
-    <div className={classNames(['users-list', { 'loading': loading }])}>
+    <div className={classNames(['list-container', { 'loading': loading }])}>
       <Spinner />
       <div className="list-group" onClick={selectHandler}>
-        {users.map((user) =>
+        {items.map((item) =>
           <a
-            key={user.id}
-            className={classNames([
-              'list-group-item',
-              { 'active': user.id === active }
-            ])}
-            data-id={user.id}
+            key={item.id}
+            className={classNames(['list-group-item', { 'active': item.id === active }])}
+            data-id={item.id}
           >
-            {user.name}
+            {item.name}
           </a>
         )}
       </div>
@@ -58,10 +37,17 @@ function List(props) {
 }
 
 List.propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
+  loading: PropTypes.bool,
   onSelect: PropTypes.func,
 };
 
 List.defaultProps = {
+  items: [],
+  loading: false,
   onSelect: null,
 };
 

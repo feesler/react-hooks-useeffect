@@ -163,7 +163,7 @@
   border: 0 !important;
 }
 
-.users-list {
+.list-container {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
