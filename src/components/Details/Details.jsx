@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { API } from '../../api/index.js';
 import Spinner from '../Spinner/Spinner.jsx';
-import UserCard from './UserCard.jsx';
+import UserCard from '../UserCard/UserCard.jsx';
 
 function Details(props) {
   const { info } = props;
@@ -12,7 +12,11 @@ function Details(props) {
 
   useEffect(() => {
     const fetchUserDetails = async (userId) => {
+      setLoading(true);
+      setUser(null);
+
       const userDetails = await API.users.read(userId);
+
       setLoading(false);
       if (userDetails) {
         setUser({ ...userDetails });
@@ -26,8 +30,6 @@ function Details(props) {
       return;
     }
 
-    setLoading(true);
-    setUser(null);
     fetchUserDetails(info.id);
   }, [info]);
 
