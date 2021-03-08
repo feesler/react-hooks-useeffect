@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Spinner from '../Spinner/Spinner.jsx';
 
 function List(props) {
-  const { items, loading, onSelect } = props;
+  const { items, loading, error, onSelect } = props;
   const [active, setActive] = useState(null);
 
   const selectHandler = (e) => {
@@ -18,9 +18,16 @@ function List(props) {
     }
   }
 
+  const blockClasses = classNames([
+    'list-container',
+    { 'loading': loading },
+    { 'error': error !== null },
+  ]);
+
   return (
-    <div className={classNames(['list-container', { 'loading': loading }])}>
+    <div className={blockClasses}>
       <Spinner />
+      <div className="error-message">{error}</div>
       <div className="list-group" onClick={selectHandler}>
         {items.map((item) =>
           <a
@@ -42,12 +49,14 @@ List.propTypes = {
     name: PropTypes.string.isRequired,
   })),
   loading: PropTypes.bool,
+  error: PropTypes.string,
   onSelect: PropTypes.func,
 };
 
 List.defaultProps = {
   items: [],
   loading: false,
+  error: null,
   onSelect: null,
 };
 

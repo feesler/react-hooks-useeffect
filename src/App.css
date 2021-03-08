@@ -185,3 +185,12 @@
 .loading .card {
   opacity: 0;
 }
+
+.error-message {
+  display: none;
+  color: #ad0000;
+}
+
+.error .error-message {
+  display: inline;
+}
